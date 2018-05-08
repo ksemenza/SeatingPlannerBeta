@@ -8,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.guinproductions.seatingplanner.utils.OnBackPressListener;
 import com.guinproductions.seatingplanner.R;
 import com.guinproductions.seatingplanner.adapters.DynamicViewPageAdapter;
+import com.guinproductions.seatingplanner.utils.OnBackPressListener;
 
 public class CarouselFragment extends Fragment {
 
@@ -36,7 +36,7 @@ public class CarouselFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_carousel, container, false);
 
-        pager = (ViewPager) rootView.findViewById(R.id.vp_pages);
+        pager = rootView.findViewById(R.id.vp_pages);
 
         return rootView;
     }

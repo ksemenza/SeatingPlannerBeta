@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static android.provider.BaseColumns._ID;
-
 import static com.guinproductions.seatingplanner.database.DbPresenter.Name.SERVER_NAME;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Name.TABLE_NAME;
 

@@ -23,22 +23,21 @@ public class Name {
         return name;
     }
 
-    public void setId(int _id) {
-        this._id = _id;
-    }
-
     public int getId() {
         return _id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int _id) {
+        this._id = _id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void Name(int _id, String name) {
         this.name = name;

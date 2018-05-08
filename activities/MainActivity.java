@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,11 +21,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guinproductions.seatingplanner.R;
 import com.guinproductions.seatingplanner.database.DbView;
 import com.guinproductions.seatingplanner.fragments.MainDetailsFragment;
 import com.guinproductions.seatingplanner.fragments.MainRmBgFragment;
 import com.guinproductions.seatingplanner.fragments.MainRmSmFragment;
-import com.guinproductions.seatingplanner.R;
 
 import static android.provider.BaseColumns._ID;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Name.SERVER_NAME;
@@ -35,12 +35,10 @@ import static com.guinproductions.seatingplanner.database.DbPresenter.Name.TABLE
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainRmBgFragment.OnFragmentInteractionListener, MainRmSmFragment.OnFragmentInteractionListener {
 
-    private MainViewPagerAdapter mainViewPagerAdapter;
-
     static MainDetailsFragment mainDetailsFragment;
     static MainRmBgFragment mainRmBgFragment;
     static MainRmSmFragment mainRmSmFragment;
-
+    private MainViewPagerAdapter mainViewPagerAdapter;
     private ViewPager mViewPager;
 
     private TextInputEditText inputNameEV;
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         /** Pass Data in ViewPager Fragments */
@@ -62,23 +60,23 @@ public class MainActivity extends AppCompatActivity
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.mainContainer);
+        mViewPager = findViewById(R.id.mainContainer);
         mViewPager.setAdapter(mainViewPagerAdapter);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -187,7 +185,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -198,6 +196,32 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(String sectionLetter) {
         mainViewPagerAdapter.onFragmentInteraction(sectionLetter);
+
+
+    }
+
+    private void readNameFromDB() {
+        String serverName = tvNameInput.getText().toString();
+        SQLiteDatabase database = new DbView(this).getReadableDatabase();
+        String[] projection = {
+                String.valueOf(_ID),
+                SERVER_NAME
+        };
+
+        String selection =
+                SERVER_NAME + "  like ?";
+
+        String[] selectionArgs = {"%" + serverName + "%"};
+
+        Cursor cursor = database.query(
+                TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
 
 
     }
@@ -244,32 +268,6 @@ public class MainActivity extends AppCompatActivity
 
 
         }
-    }
-
-    private void readNameFromDB() {
-        String serverName = tvNameInput.getText().toString();
-        SQLiteDatabase database = new DbView(this).getReadableDatabase();
-        String[] projection = {
-                String.valueOf(_ID),
-                SERVER_NAME
-        };
-
-        String selection =
-                SERVER_NAME + "  like ?";
-
-        String[] selectionArgs = {"%" + serverName + "%"};
-
-        Cursor cursor = database.query(
-                TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-
-
     }
 
 }

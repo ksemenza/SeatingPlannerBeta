@@ -33,24 +33,20 @@ public class Counter {
         return counter;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRoom() {
         return room;
     }
 
-    public void setSection(String section) {
-        this.section = section;
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public String getSection() {
@@ -60,29 +56,32 @@ public class Counter {
         return section;
     }
 
-
-    public void setTable(String table) {
-        this.table = table;
+    public void setSection(String section) {
+        this.section = section;
     }
 
     public String getTable() {
         return table;
     }
 
-    public void setTally(String tally) {
-        this.tally = tally;
+    public void setTable(String table) {
+        this.table = table;
     }
 
     public String getTally() {
         return tally;
     }
 
-    public void setTime(String time) {
-        this.name = time;
+    public void setTally(String tally) {
+        this.tally = tally;
     }
 
     public String getTime() {
         return time;
+    }
+
+    public void setTime(String time) {
+        this.name = time;
     }
 
 

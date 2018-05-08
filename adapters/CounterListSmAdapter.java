@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.guinproductions.seatingplanner.R;
 import com.guinproductions.seatingplanner.models.ServerChild;
 import com.guinproductions.seatingplanner.models.ServerParent;
+import com.guinproductions.seatingplanner.models.ServerParentSm;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class CounterListSmAdapter extends BaseExpandableListAdapter {
     private ArrayList<ServerParent> parentListSm;
 
 
-    public CounterListSmAdapter(Context context, ArrayList<ServerParent> parentListSm) {
+    public CounterListSmAdapter(Context context, ArrayList<ServerParentSm> parentListSm) {
         this.mContext = context;
         this.parentListSm = parentListSm;
 

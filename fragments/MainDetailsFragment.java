@@ -29,12 +29,10 @@ import com.guinproductions.seatingplanner.database.DbPresenter;
 import com.guinproductions.seatingplanner.database.DbView;
 import com.guinproductions.seatingplanner.models.Counter;
 import com.guinproductions.seatingplanner.models.Section;
-import com.guinproductions.seatingplanner.models.ServerChild;
 import com.guinproductions.seatingplanner.models.ServerChildBg;
-import com.guinproductions.seatingplanner.models.ServerParent;
+import com.guinproductions.seatingplanner.models.ServerChildSm;
 import com.guinproductions.seatingplanner.models.ServerParentBg;
 import com.guinproductions.seatingplanner.models.ServerParentSm;
-
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,11 +42,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static com.guinproductions.seatingplanner.database.DbPresenter.Counter.TABLE_NUMBER;
-import static com.guinproductions.seatingplanner.database.DbPresenter.Counter.TALLY;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Counter.TIME_STAMP;
-import static com.guinproductions.seatingplanner.database.DbPresenter.Section.ROOM;
-import static com.guinproductions.seatingplanner.database.DbPresenter.Section.SECTION_LETTER;
-import static com.guinproductions.seatingplanner.database.DbPresenter.Section.SPINNER_NAME_SELECTIONS;
 
 
 /**
@@ -136,6 +130,39 @@ public class MainDetailsFragment extends Fragment implements MainRmBgFragment.On
 
     }
 
+    //our child listener
+    private ExpandableListView.OnChildClickListener myListItemClicked = new ExpandableListView.OnChildClickListener() {
+
+        public boolean onChildClick(ExpandableListView parent, View v,
+                                    int groupPosition, int childPosition, long id) {
+            //get the group header
+            ServerParentBg serverParentBg = parentListBg.get(groupPosition);
+            ServerParentSm serverParentSm = parentListSm.get(groupPosition);
+            //get the child info
+            ServerChildBg serverChildBg = serverParentBg.getChildListBg().get(childPosition);
+            ServerChildSm serverChildSm = serverParentBg.getChildListSm().get(childPosition);
+            //display it or do something with it
+            Toast.makeText(mContext, "Clicked on Detail " + serverParentBg.getName() + serverParentSm.getName()
+                    + "/" + serverChildSm.getTable() + serverChildBg.getTable(), Toast.LENGTH_LONG).show();
+            return false;
+        }
+    };
+    /**
+     * Parent Group Listener
+     */
+    private ExpandableListView.OnGroupClickListener myListGroupClicked = new ExpandableListView.OnGroupClickListener() {
+        public boolean onGroupClick(ExpandableListView parent, View v,
+                                    int groupPosition, long id) {
+            //get the group header
+            ServerParentBg serverParentBg = parentListBg.get(groupPosition);
+            ServerParentSm serverParentSm = parentListSm.get(groupPosition);
+            //display it or do something with it
+            Toast.makeText(mContext, serverParentBg.getSection() + serverParentSm.getSection(),
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    };
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -162,105 +189,37 @@ public class MainDetailsFragment extends Fragment implements MainRmBgFragment.On
          tvTableNumber.setText(TABLE_NUMBER);
          */
 
-        /** Expandable ListView Sm and Bg Rm View Implementation*/
+/** BIG ROOM ELEMENTS*/
         counterListBgAdapter = new CounterListBgAdapter(mContext, parentListBg);
-        counterListSmAdapter = new CounterListSmAdapter(mContext, parentListSm);
-        expandAll();
-/** ExpandListView Bg Rm Implementation */
         expListBgRm = view.findViewById(R.id.mainDetailsBgExpLV);
-        expListBgRm.setAdapter(counterListBgAdapter);
-        //listener for group heading click
-        expListBgRm.setOnGroupClickListener(myListGroupClicked);
-        //listener for child row click
         expListBgRm.setOnChildClickListener(myListItemClicked);
+        expListBgRm.setOnGroupClickListener(myListGroupClicked);
+        expListBgRm.setAdapter(counterListBgAdapter);
 
-/** ExpandListView Sm Rm Implementation */
-        expListSmRm = view.findViewById(R.id.mainDetailsSmExpLV);
-        expListSmRm.setAdapter(counterListBgAdapter);
-        //listener for group heading click
-        expListSmRm.setOnGroupClickListener(myListGroupClicked);
-        //listener for child row click
-        expListSmRm.setOnChildClickListener(myListItemClicked);
-
-/** GridView Sm Rm Start of Implementation of View */
-        gvSmRm = view.findViewById(R.id.mainDetailsSmGV);
-/** GridView Bg Rm setAdapter */
-        gvSmRm.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, tblSmRmList) {
-            public View getView(int position, View convertView, ViewGroup parent) {
-/** Return GridView Current Item as a View */
-                View viewSmGV = super.getView(position, convertView, parent);
-// Convert the view as a TextView widget
-                TextView tvSmGV = (TextView) viewSmGV;
-// set the TextView text color (GridView item color)
-                tvSmGV.setTextColor(Color.BLACK);
-                tvSmGV.setGravity(Gravity.CENTER);
-// Set the TextView text font family and text size
-                tvSmGV.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-                tvSmGV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
-// Set the TextView text (GridView item text)
-                tvSmGV.setText(tblSmRmList.get(position));
-// Set the TextView background color
-                tvSmGV.setBackgroundColor(Color.parseColor("#E3F2FD"));
-// Return the TextView widget as GridView item
-                return tvSmGV;
-            }
-        });
-
-/** GridView Big Room OnItemClickListener */
-        gvSmRm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-// Get the selected item Pos text
-                selectedTableSmRmGV = parent.getItemAtPosition(position).toString();
-// Get current selected view as TextView
-                TextView tvSmTableGV = (TextView) view;
-// Set the current selected item background color
-                tvSmTableGV.setBackgroundColor(Color.parseColor("#64B5F6"));
-// Set the current selected item text color
-                tvSmTableGV.setTextColor(Color.LTGRAY);
-// Get the last selected View from GridView
-                TextView priorSelectedView = (TextView) gvSmRm.getChildAt(priorSelectedPos);
-// If there is a previous selected view exists
-                if (priorSelectedPos != -1) {
-// Set the last selected View to deselect
-                    priorSelectedView.setSelected(true);
-// Set the last selected View background color as deselected item
-                    priorSelectedView.setBackgroundColor(Color.parseColor("#E3F2FD"));
-// Set the last selected View text color as deselected item
-                    priorSelectedView.setTextColor(Color.DKGRAY);
-                }
-// Set the current selected view position as previousSelectedPosition
-                priorSelectedPos = position;
-                Toast.makeText(getContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-
-            }
-
-
-        });
-/** GridView Start of Implementation of View */
+        //GridView Start of Implementation of View
         gvBgRm = view.findViewById(R.id.mainDetailsBgGV);
-/** GridView Bg Rm setAdapter */
+        //GridView Bg Rm setAdapter
         gvBgRm.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, tblBgRmList) {
             public View getView(int position, View convertView, ViewGroup parent) {
-/** Return GridView Current Item as a View */
+                //Return GridView Current Item as a View
                 View viewBgGV = super.getView(position, convertView, parent);
-// Convert the view as a TextView widget
+                // Convert the view as a TextView widget
                 TextView tvBgGV = (TextView) viewBgGV;
-// set the TextView text color (GridView item color)
+                // set the TextView text color (GridView item color)
                 tvBgGV.setTextColor(Color.BLACK);
                 tvBgGV.setGravity(Gravity.CENTER);
-// Set the TextView text font family and text size
+                // Set the TextView text font family and text size
                 tvBgGV.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
                 tvBgGV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
-// Set the TextView text (GridView item text)
+                // Set the TextView text (GridView item text)
                 tvBgGV.setText(tblBgRmList.get(position));
-// Set the TextView background color
+                // Set the TextView background color
                 tvBgGV.setBackgroundColor(Color.parseColor("#E3F2FD"));
-// Return the TextView widget as GridView item
+                // Return the TextView widget as GridView item
                 return tvBgGV;
             }
         });
-/** GridView Big Room OnItemClickListener */
+        //GridView Big Room OnItemClickListener
         gvBgRm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -291,8 +250,78 @@ public class MainDetailsFragment extends Fragment implements MainRmBgFragment.On
 
 
         });
+
+/** SMALL ROOM ELEMENTS */
+        counterListSmAdapter = new CounterListSmAdapter(mContext, parentListSm);
+        expListSmRm = view.findViewById(R.id.mainDetailsSmExpLV);
+        //listener for group heading click
+        expListSmRm.setOnGroupClickListener(myListGroupClicked);
+        //listener for child row click
+        expListSmRm.setOnChildClickListener(myListItemClicked);
+        expListSmRm.setAdapter(counterListBgAdapter);
+
+        // GridView Big Room OnItemClickListener */
+        gvSmRm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item Pos text
+                selectedTableSmRmGV = parent.getItemAtPosition(position).toString();
+                // Get current selected view as TextView
+                TextView tvSmTableGV = (TextView) view;
+                // Set the current selected item background color
+                tvSmTableGV.setBackgroundColor(Color.parseColor("#64B5F6"));
+                // Set the current selected item text color
+                tvSmTableGV.setTextColor(Color.LTGRAY);
+                // Get the last selected View from GridView
+                TextView priorSelectedView = (TextView) gvSmRm.getChildAt(priorSelectedPos);
+                // If there is a previous selected view exists
+                if (priorSelectedPos != -1) {
+                    // Set the last selected View to deselect
+                    priorSelectedView.setSelected(true);
+                    // Set the last selected View background color as deselected item
+                    priorSelectedView.setBackgroundColor(Color.parseColor("#E3F2FD"));
+                    // Set the last selected View text color as deselected item
+                    priorSelectedView.setTextColor(Color.DKGRAY);
+                }
+                // Set the current selected view position as previousSelectedPosition
+                priorSelectedPos = position;
+                Toast.makeText(getContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+
+            }
+
+
+        });
+
+        expandAll();
+
+        //GridView Sm Rm Start of Implementation of View */
+        gvSmRm = view.findViewById(R.id.mainDetailsSmGV);
+        //GridView Bg Rm setAdapter */
+        gvSmRm.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, tblSmRmList) {
+            public View getView(int position, View convertView, ViewGroup parent) {
+                //Return GridView Current Item as a View */
+                View viewSmGV = super.getView(position, convertView, parent);
+                // Convert the view as a TextView widget
+                TextView tvSmGV = (TextView) viewSmGV;
+                // set the TextView text color (GridView item color)
+                tvSmGV.setTextColor(Color.BLACK);
+                tvSmGV.setGravity(Gravity.CENTER);
+                // Set the TextView text font family and text size
+                tvSmGV.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+                tvSmGV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
+                // Set the TextView text (GridView item text)
+                tvSmGV.setText(tblSmRmList.get(position));
+                // Set the TextView background color
+                tvSmGV.setBackgroundColor(Color.parseColor("#E3F2FD"));
+                // Return the TextView widget as GridView item
+                return tvSmGV;
+            }
+        });
     }
 
+    /**
+     * Last Table Sat Interface
+     */
     @Override
     public void onFragmentInteraction(String tableNumber) {
 
@@ -323,17 +352,18 @@ public class MainDetailsFragment extends Fragment implements MainRmBgFragment.On
  serverParentSm.setTime(TIME_STAMP);
  *****/
 
-        int groupPosition = addServer();
+        int groupPositionBg = addServerBg();
+        int groupPositionSm = addServerSm();
 
         counterListBgAdapter.notifyDataSetChanged();
         counterListSmAdapter.notifyDataSetChanged();
         collapseAll();
 
-        expListBgRm.expandGroup(groupPosition);
-        expListSmRm.expandGroup(groupPosition);
+        expListBgRm.expandGroup(groupPositionBg);
+        expListSmRm.expandGroup(groupPositionSm);
 
-        expListBgRm.setSelectedGroup(groupPosition);
-        expListSmRm.setSelectedGroup(groupPosition);
+        expListBgRm.setSelectedGroup(groupPositionBg);
+        expListSmRm.setSelectedGroup(groupPositionSm);
 
     }
 
@@ -355,53 +385,46 @@ public class MainDetailsFragment extends Fragment implements MainRmBgFragment.On
         }
     }
 
-    private void AddServerExample() {
+    private int addServerBg() {
 
-        addServer();
 
+        return 0;
     }
 
-    //our child listener
-    private ExpandableListView.OnChildClickListener myListItemClicked = new ExpandableListView.OnChildClickListener() {
+    private int addServerSm() {
 
-        public boolean onChildClick(ExpandableListView parent, View v,
-                                    int groupPosition, int childPosition, long id) {
-            //get the group header
-            ServerParentBg serverParentBg = parentListBg.get(groupPosition);
-            ServerParent serverParentSm = parentListSm.get(groupPosition);
-            //get the child info
-            ServerChild serverChildBg = serverParentBg.getChildList().get(childPosition);
-            ServerChild serverChildSm = serverParentBg.getChildList().get(childPosition);
-            //display it or do something with it
-            Toast.makeText(mContext, "Clicked on Detail " + serverParentBg.getName() + serverParentSm.getName()
-                    + "/" + serverChildSm.getTable() + serverChildBg.getTable(), Toast.LENGTH_LONG).show();
-            return false;
-        }
-    };
+        return 0;
+    }
 
     /**
-     * Parent Group Listener
+     * BIG ROOM ADD SERVER METHOD
      */
-    private ExpandableListView.OnGroupClickListener myListGroupClicked = new ExpandableListView.OnGroupClickListener() {
-        public boolean onGroupClick(ExpandableListView parent, View v,
-                                    int groupPosition, long id) {
-            //get the group header
-            ServerParent serverParentBg = parentListBg.get(groupPosition);
-            ServerParent serverParentSm = parentListSm.get(groupPosition);
-            //display it or do something with it
-            Toast.makeText(mContext, serverParentBg.getSection() + serverParentSm.getSection(),
-                    Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    };
 
-
-    //here we maintain our products in various names
-    private int addServer(String header, String details) {
-        int groupPosition = 0;
-
+    private int addServerBg(String header, String details) {
+        int groupPositionBg = 0;
         ServerParentBg serverParentBg = mySectionBg.get(header);
-        ServerParentSm serverParentSm = mySectionSm.get(header);
+
+        //get the children for the group
+        ArrayList<ServerChildBg> childListBg = serverParentBg.getChildListBg();
+        //size of the children list
+        int listSizeBg = childListBg.size();
+        //add to the counter
+        listSizeBg++;
+
+        //create a new child and add that to the group
+        ServerChildBg serverChildBg = new ServerChildBg();
+
+        serverChildBg.setTable(TABLE_NUMBER);
+        serverChildBg.setTime(TIME_STAMP);
+
+        childListBg.add(serverChildBg);
+        serverParentBg.setChildListBg(childListBg);
+
+        //find the group position inside the list
+        groupPositionBg = parentListBg.indexOf(serverParentBg);
+
+        return groupPositionBg;
+
 
         /** Model implemented Data
          //check the hash map if the group already exists
@@ -421,42 +444,55 @@ public class MainDetailsFragment extends Fragment implements MainRmBgFragment.On
          }
 
          */
+
+    }
+    /** END BIG ROOM ADD SERVER METHOD */
+
+
+    /**
+     * SMALL ROOM ADD SERVER METHOD
+     */
+    private int addServerSm(String bg_header, String bg_details) {
+
+        int groupPositionSm = 0;
+
+        ServerParentSm serverParentSm = mySectionSm.get(bg_header);
+
         //get the children for the group
-        ArrayList<ServerChildBg> childListBg = serverParentBg.getChildListBg();
+        ArrayList<ServerChildSm> childListSm = serverParentSm.getChildListSm();
         //size of the children list
-        int listSizeBg = childListBg.size();
+        int listSizeSm = childListSm.size();
         //add to the counter
-        listSizeBg++;
+        listSizeSm++;
 
         //create a new child and add that to the group
-        ServerChildBg serverChildBg = new ServerChildBg();
+        ServerChildSm serverChildSm = new ServerChildSm();
 
-        serverChildBg.setTable(TABLE_NUMBER);
-        serverChildBg.setTime(TIME_STAMP);
+        serverChildSm.setTable(TABLE_NUMBER);
+        serverChildSm.setTime(TIME_STAMP);
 
-        childListBg.add(serverChildBg);
-        serverParentBg.setChildListBg(childListBg);
+        childListSm.add(serverChildSm);
+        serverParentSm.setChildListSm(childListSm);
 
         //find the group position inside the list
-        groupPositionBg = parentListBg.indexOf(serverParentBg);
+
         groupPositionSm = parentListSm.indexOf(serverParentSm);
-        return groupPositionBg;
+        return groupPositionSm;
     }
+
+    /** END SMALL ROOM ADD SERVER METHOD */
+
 
     private void readFromDB() {
-        String firstname = tvName.getText().toString();
-        String sectionletter = tvSecA.getText().toString();
+        String name_bg_a = tvName.getText().toString();
+        String sec_a = tvSecA.getText().toString();
 
         SQLiteDatabase database = new DbView(getContext()).getReadableDatabase();
-
-        String[] selectionArgs = {"%" + firstname + "%", "%" + sectionletter + "%"};
+        String[] selectionArgs = {"%" + name_bg_a + "%", "%" + sec_a + "%"};
 
         Cursor cursor = database.rawQuery(DbPresenter.SELECTED_SERVER_NAME, selectionArgs);
-        expListBgRm.setAdapter(new CounterListBgAdapter(getContext(), (ArrayList<ServerParent>) cursor));
-        expListSmRm.setAdapter(new CounterListSmAdapter(getContext(), (ArrayList<ServerParent>) cursor));
+        expListBgRm.setAdapter(new CounterListBgAdapter(getContext(), (ArrayList<ServerParentBg>) cursor));
+        expListSmRm.setAdapter(new CounterListSmAdapter(getContext(), (ArrayList<ServerParentSm>) cursor));
     }
-
-
-    /** END of ExpandListView */
 }
 

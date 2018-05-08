@@ -18,15 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.guinproductions.seatingplanner.R;
-import com.guinproductions.seatingplanner.activities.AmtSetupActivity;
 import com.guinproductions.seatingplanner.activities.MainActivity;
 import com.guinproductions.seatingplanner.database.DbPresenter;
 import com.guinproductions.seatingplanner.database.DbView;
-import com.guinproductions.seatingplanner.dialogs.AmtServersDialog;
 
+import static com.guinproductions.seatingplanner.database.DbPresenter.Name.SERVER_NAME;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Section.ROOM;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Section.SECTION_LETTER;
-import static com.guinproductions.seatingplanner.database.DbPresenter.Name.SERVER_NAME;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Section.SPINNER_NAME_SELECTIONS;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Section.TABLE_NAME;
 

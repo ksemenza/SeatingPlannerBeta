@@ -21,10 +21,9 @@ import static com.guinproductions.seatingplanner.database.DbPresenter.Name.SERVE
 
 public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHolder> {
 
+    public static String NAME_ITEM = "name";
     Context mContext;
     Cursor mCursor;
-    public static String NAME_ITEM = "name";
-
     private List<Name> nameList;
     private SparseBooleanArray selectedNameItem;
 

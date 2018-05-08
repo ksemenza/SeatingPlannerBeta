@@ -1,7 +1,5 @@
 package com.guinproductions.seatingplanner.fragments;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -9,9 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.guinproductions.seatingplanner.R;
-import com.guinproductions.seatingplanner.database.DbView;
-
-import static com.guinproductions.seatingplanner.database.DbPresenter.Name.SERVER_NAME;
 
 public class AmtSmFrag6 extends RootFragment {
 

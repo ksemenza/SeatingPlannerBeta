@@ -1,7 +1,5 @@
 package com.guinproductions.seatingplanner.fragments;
 
-import com.guinproductions.seatingplanner.R;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.guinproductions.seatingplanner.R;
 
 import java.util.List;
 

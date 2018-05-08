@@ -21,6 +21,7 @@ public class ServerParent {
     String table;
     String time;
     String tally;
+    private ArrayList<ServerChild> childList = new ArrayList<>();
 
     public static ServerParent getServerParentfromCursor(Cursor cursor) {
         ServerParent serverParent = new ServerParent();
@@ -32,32 +33,28 @@ public class ServerParent {
         return serverParent;
     }
 
-    private ArrayList<ServerChild> childList = new ArrayList<>();
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
     public String getRoom() {
         return room;
     }
 
-
-    public void setSection(String section) {
-        this.section = section;
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public String getSection() {
         return section;
     }
 
-
-    public void setName(String name) {
-        this.name = name;
+    public void setSection(String section) {
+        this.section = section;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTable() {

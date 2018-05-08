@@ -13,7 +13,6 @@ import com.guinproductions.seatingplanner.R;
 import com.guinproductions.seatingplanner.database.DbPresenter;
 import com.guinproductions.seatingplanner.database.DbView;
 
-
 import static com.guinproductions.seatingplanner.database.DbPresenter.Name.SERVER_NAME;
 
 

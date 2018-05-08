@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +15,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.guinproductions.seatingplanner.activities.AmtSetupActivity;
 import com.guinproductions.seatingplanner.R;
+import com.guinproductions.seatingplanner.activities.AmtSetupActivity;
 import com.guinproductions.seatingplanner.activities.MainActivity;
-import com.guinproductions.seatingplanner.fragments.AmtSmFrag1;
-import com.guinproductions.seatingplanner.fragments.AmtSmFrag2;
 import com.guinproductions.seatingplanner.fragments.CarouselFragment;
-
-import java.util.ResourceBundle;
 
 public class AmtServersDialog extends DialogFragment {
 
     public static final String TAG = "AmtServersDialog";
-    private CarouselFragment carouselFragment;
-    private AmtSetupActivity amtSetupActivity;
     Context mContext;
     ArrayAdapter spinnerAdapter;
     Intent intentAmtSm, intentAmtBg;
+    private CarouselFragment carouselFragment;
+    private AmtSetupActivity amtSetupActivity;
 
     public AmtServersDialog() {
 

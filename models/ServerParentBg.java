@@ -18,6 +18,9 @@ public class ServerParentBg {
     String time;
     String tally;
 
+    private ArrayList<ServerChildBg> childListBg = new ArrayList<>();
+    private ArrayList<ServerChildSm> childListSm = new ArrayList<>();
+
     public static ServerParentBg getServerParentBgfromCursor(Cursor cursor) {
         ServerParentBg serverParentBg = new ServerParentBg();
         serverParentBg.setRoom(cursor.getString(cursor.getColumnIndex(ROOM)));
@@ -28,32 +31,28 @@ public class ServerParentBg {
         return serverParentBg;
     }
 
-    private ArrayList<ServerChildBg> childListBg = new ArrayList<>();
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
     public String getRoom() {
         return room;
     }
 
-
-    public void setSection(String section) {
-        this.section = section;
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public String getSection() {
         return section;
     }
 
-
-    public void setName(String name) {
-        this.name = name;
+    public void setSection(String section) {
+        this.section = section;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTable() {
@@ -82,6 +81,10 @@ public class ServerParentBg {
 
     public ArrayList<ServerChildBg> getChildListBg() {
         return childListBg;
+    }
+
+    public ArrayList<ServerChildSm> getChildListSm() {
+        return childListSm;
     }
 
     public void setChildListBg(ArrayList<ServerChildBg> childListBg) {

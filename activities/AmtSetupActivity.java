@@ -7,17 +7,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.guinproductions.seatingplanner.R;
 import com.guinproductions.seatingplanner.fragments.CarouselFragment;
 
 public class AmtSetupActivity extends AppCompatActivity {
 
+    public String NAME_A_BG, NAME_B_BG, NAME_C_BG, NAME_D_BG, NAME_E_BG, NAME_F_BG;
     private CarouselFragment carouselFragment;
     private FloatingActionButton fabServerSetup;
-    public String NAME_A_BG, NAME_B_BG, NAME_C_BG, NAME_D_BG, NAME_E_BG, NAME_F_BG;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +25,7 @@ public class AmtSetupActivity extends AppCompatActivity {
 //        setSupportActionBar(toolbar);
 
 
-        fabServerSetup = (FloatingActionButton) findViewById(R.id.serverSetupFAB);
+        fabServerSetup = findViewById(R.id.serverSetupFAB);
         fabServerSetup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -35,20 +35,19 @@ public class NameLstActivity extends AppCompatActivity {
     public static final String TAG = "NameLstActivity";
     DbView dbView;
 //    private ActivityNameLstBinding bindingMain;
-
+EditText addNameEditText;
+    Button saveNameButton;
     private RecyclerView rvListName;
     private RecyclerView.LayoutManager nameLayoutManger;
     private RecyclerView.Adapter adapter;
     private List<Name> nameListModel;
     private FloatingActionButton fabAddName, fabShowNames;
     private TextView tvNameInput;
-    EditText addNameEditText;
-    Button saveNameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setContentView(R.layout.activity_name_lst);
 

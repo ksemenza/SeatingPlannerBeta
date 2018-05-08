@@ -2,7 +2,6 @@ package com.guinproductions.seatingplanner.database;
 
 import android.provider.BaseColumns;
 
-import static android.provider.BaseColumns._ID;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Name.SERVER_NAME;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Section.ROOM;
 import static com.guinproductions.seatingplanner.database.DbPresenter.Section.SECTION_LETTER;
